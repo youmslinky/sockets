@@ -12,15 +12,16 @@
 int main(int argc, char * argv[])
 {
 	struct sockaddr_in sin;
-	uint16_t serverport = 5432;
+	uint16_t serverport = 20183;
 	char buf[MAX_LINE];
 	int len;
 	int s, new_s;
 	if (argc==2) {
 		serverport = strtoul(argv[1],NULL,0);
 	}
+	else if(argc==1) {}
 	else {
-		fprintf(stderr, "usage: simplex-talk host\n");
+		fprintf(stderr, "usage: server_p2 [port]\n");
 		return 1;
 	}
 	/* build address data structure */
@@ -30,11 +31,11 @@ int main(int argc, char * argv[])
 	sin.sin_port = htons(serverport);
 	/* setup passive open */
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("simplex-talk: socket");
+		perror("server_p2: socket");
 		exit(1);
 	}
 	if ((bind(s, (struct sockaddr *)&sin, sizeof(sin))) < 0) {
-		perror("simplex-talk: bind");
+		perror("server_p2: bind");
 		exit(1);
 	}
 	listen(s, MAX_PENDING);
@@ -43,7 +44,7 @@ int main(int argc, char * argv[])
 	printf("Server Started...\nServer Waiting for connections on port %u...\n\n",serverport);
 	while(1) {
 		if ((new_s = accept(s, (struct sockaddr *)&sin, &len)) < 0) {
-			perror("simplex-talk: accept");
+			perror("server_p2: accept");
 			exit(1);
 		}
 		printf("client #%d connected\n",connectionNumber);
