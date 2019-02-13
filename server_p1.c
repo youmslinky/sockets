@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
 		serverport = strtoul(argv[1],NULL,0);
 	}
 	else {
-		fprintf(stderr, "usage: simplex-talk host\n");
+		fprintf(stderr, "usage: server_p1 [port]\n");
 		return 1;
 	}
 	/* build address data structure */
@@ -29,11 +29,11 @@ int main(int argc, char * argv[])
 	sin.sin_port = htons(serverport);
 	/* setup passive open */
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("simplex-talk: socket");
+		perror("socket creation error");
 		exit(1);
 	}
 	if ((bind(s, (struct sockaddr *)&sin, sizeof(sin))) < 0) {
-		perror("simplex-talk: bind");
+		perror("socket binding error");
 		exit(1);
 	}
 	listen(s, MAX_PENDING);
@@ -42,7 +42,7 @@ int main(int argc, char * argv[])
 	printf("Server Started...\nServer Waiting for connections on port %u\n",serverport);
 	while(1) {
 		if ((new_s = accept(s, (struct sockaddr *)&sin, &len)) < 0) {
-			perror("simplex-talk: accept");
+			perror("connection accept error");
 			exit(1);
 		}
 		printf("client #%d connected\n",connectionNumber);

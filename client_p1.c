@@ -22,13 +22,13 @@ int main(int argc, char * argv[])
 		serverport = strtoul(argv[2],NULL,0);
 	}
 	else {
-		fprintf(stderr, "usage: simplex-talk host\n");
+		fprintf(stderr, "usage: program host port\n");
 		return 1;
 	}
 	/* translate host name into peer's IP address */
 	hp = gethostbyname(host);
 	if (!hp) {
-		fprintf(stderr, "simplex-talk: unknown host: %s\n", host);
+		fprintf(stderr, "client_p1: unknown host: %s\n", host);
 		return 1;
 	}
 	/* build address data structure */
@@ -38,7 +38,7 @@ int main(int argc, char * argv[])
 	sin.sin_port = htons(serverport);
 	/* active open */
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("simplex-talk: socket");
+		perror("socket binding error");
 		return 1;
 	}
 	printf("Connecting...\n");
