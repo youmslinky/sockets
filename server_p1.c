@@ -11,7 +11,7 @@
 int main(int argc, char * argv[])
 {
 	struct sockaddr_in sin;
-	uint16_t serverport = 5432;
+	uint16_t serverport = 20183;
 	char buf[MAX_LINE];
 	int len;
 	int s, new_s;

@@ -13,7 +13,7 @@ int main(int argc, char * argv[])
 	struct hostent *hp;
 	struct sockaddr_in sin;
 	char *host;
-	uint16_t serverport = 5432;
+	uint16_t serverport = 20183;
 	char buf[MAX_LINE];
 	int s;
 	int len;
