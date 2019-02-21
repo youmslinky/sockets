@@ -49,7 +49,6 @@ int main(int argc, char * argv[])
 		printf("client #%d connected\n",connectionNumber);
 		while ( (len = recv(new_s, buf, sizeof(buf), 0)) )
 			printf("client #%d: RCVD: %s",connectionNumber,buf);
-			//fputs(buf, stdout);
 		printf("client #%d closed connection\n\n",connectionNumber);
 		connectionNumber++;
 		shutdown(new_s,2);
