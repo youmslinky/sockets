@@ -21,6 +21,9 @@ int main(int argc, char * argv[])
 		host = argv[1];
 		serverport = strtoul(argv[2],NULL,0);
 	}
+	else if (argc==2) {
+		host = argv[1];
+	}
 	else {
 		fprintf(stderr, "usage: program host port\n");
 		return 1;

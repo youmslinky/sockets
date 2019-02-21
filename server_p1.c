@@ -18,12 +18,13 @@ int main(int argc, char * argv[])
 	if (argc==2) {
 		serverport = strtoul(argv[1],NULL,0);
 	}
+	else if(argc==1) {}
 	else {
 		fprintf(stderr, "usage: server_p1 [port]\n");
 		return 1;
 	}
 	/* build address data structure */
-	bzero((char *)&sin, sizeof(sin));
+	memset((char *)&sin, 0, sizeof(sin));
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = INADDR_ANY;
 	sin.sin_port = htons(serverport);
