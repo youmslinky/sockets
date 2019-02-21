@@ -35,9 +35,9 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 	/* build address data structure */
-	bzero((char *)&sin, sizeof(sin));
+	memset((char *)&sin, 0, sizeof(sin));
 	sin.sin_family = AF_INET;
-	bcopy(hp->h_addr, (char *)&sin.sin_addr, hp->h_length);
+	memcpy((char *)&sin.sin_addr, hp->h_addr, hp->h_length);
 	sin.sin_port = htons(serverport);
 	/* active open */
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
