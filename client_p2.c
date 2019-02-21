@@ -41,13 +41,13 @@ int main(int argc, char * argv[])
 	sin.sin_port = htons(serverport);
 	/* active open */
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("client_p2: socket");
+		perror("client_p2: socket error");
 		return 1;
 	}
 	printf("Connecting...\n");
 	if (connect(s, (struct sockaddr *)&sin, sizeof(sin)) < 0)
 	{
-		perror("client_p2: connect");
+		perror("client_p2: connect error");
 		shutdown(s,-2);
 		return 1;
 	}

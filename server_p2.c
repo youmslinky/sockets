@@ -31,11 +31,11 @@ int main(int argc, char * argv[])
 	sin.sin_port = htons(serverport);
 	/* setup passive open */
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("server_p2: socket");
+		perror("server_p2 error: socket");
 		exit(1);
 	}
 	if ((bind(s, (struct sockaddr *)&sin, sizeof(sin))) < 0) {
-		perror("server_p2: bind");
+		perror("server_p2 error: bind");
 		exit(1);
 	}
 	listen(s, MAX_PENDING);
@@ -44,7 +44,7 @@ int main(int argc, char * argv[])
 	printf("Server Started...\nServer Waiting for connections on port %u...\n\n",serverport);
 	while(1) {
 		if ((new_s = accept(s, (struct sockaddr *)&sin, &len)) < 0) {
-			perror("server_p2: accept");
+			perror("server_p2: accept error");
 			exit(1);
 		}
 		printf("client #%d connected\n",connectionNumber);

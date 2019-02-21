@@ -25,7 +25,7 @@ int main(int argc, char * argv[])
 		host = argv[1];
 	}
 	else {
-		fprintf(stderr, "usage: program host port\n");
+		fprintf(stderr, "usage: client_p1 hostAddress [port]\n");
 		return 1;
 	}
 	/* translate host name into peer's IP address */
@@ -41,13 +41,13 @@ int main(int argc, char * argv[])
 	sin.sin_port = htons(serverport);
 	/* active open */
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("socket binding error");
+		perror("client_p1: socket error");
 		return 1;
 	}
 	printf("Connecting...\n");
 	if (connect(s, (struct sockaddr *)&sin, sizeof(sin)) < 0)
 	{
-		perror("simplex-talk: connect");
+		perror("client_p1: connect error");
 		shutdown(s,-2);
 		return 1;
 	}
