@@ -16,10 +16,12 @@ int main(int argc, char * argv[])
 	int len;
 	int s, new_s;
 	if (argc==2) {
-		serverport = strtoul(argv[1],NULL,0);
+		//port supplied
+		serverport = strtoul(argv[1],NULL,0); //get port from command line args
 	}
-	else if(argc==1) {}
+	else if(argc==1) {} //port not supplied, use default
 	else {
+		//if proper args not supplied, quit and print usage
 		fprintf(stderr, "usage: server_p2 [port]\n");
 		return 1;
 	}
@@ -29,6 +31,7 @@ int main(int argc, char * argv[])
 	sin.sin_addr.s_addr = INADDR_ANY;
 	sin.sin_port = htons(serverport);
 	/* setup passive open */
+	//this  is the listening port
 	if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
 		perror("server_p2 error: socket");
 		exit(1);
@@ -42,17 +45,25 @@ int main(int argc, char * argv[])
 	int connectionNumber = 1;
 	printf("Server Started...\nServer Waiting for connections on port %u...\n\n",serverport);
 	while(1) {
+		//accept new connections
 		if ((new_s = accept(s, (struct sockaddr *)&sin, &len)) < 0) {
 			perror("server_p2: accept error");
 			exit(1);
 		}
+		//print client connection number
 		printf("client #%d connected\n",connectionNumber);
+		//while we are still connected, repeat recv, send to client
 		while ( (len = recv(new_s, buf, sizeof(buf), 0)) ){
+			//print what is recieved from client
 			printf("client #%d: RCVD: %s",connectionNumber,buf);
+			//send the same message back to the client
 			send(new_s, buf, len, MSG_CONFIRM);
 		}
+		//print that client has disconnected
 		printf("client #%d closed connection\n\n",connectionNumber);
+		//increment client connection number
 		connectionNumber++;
+		//make sure new socket is closed
 		shutdown(new_s,2);
 	}
 }

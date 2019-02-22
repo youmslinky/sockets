@@ -13,18 +13,21 @@ int main(int argc, char * argv[])
 	struct hostent *hp;
 	struct sockaddr_in sin;
 	char *host;
-	uint16_t serverport = 20183;
+	uint16_t serverport = 20183; //default port
 	char buf[MAX_LINE];
 	int s;
 	int len;
 	if (argc==3) {
-		host = argv[1];
-		serverport = strtoul(argv[2],NULL,0);
+		//port is provided
+		host = argv[1]; //get host name from command line
+		serverport = strtoul(argv[2],NULL,0); //get port from command line
 	}
 	else if (argc==2) {
-		host = argv[1];
+		//port isn't provided
+		host = argv[1]; //get host name from command line
 	}
 	else {
+		//host was not specified, print error
 		fprintf(stderr, "usage: client_p1 hostAddress [port]\n");
 		return 1;
 	}
@@ -47,18 +50,19 @@ int main(int argc, char * argv[])
 	printf("Connecting...\n");
 	if (connect(s, (struct sockaddr *)&sin, sizeof(sin)) < 0)
 	{
+		//error when connecting
 		perror("client_p1: connect error");
 		shutdown(s,-2);
 		return 1;
 	}
 	printf("Successfully connected to server on port %u\n\n",serverport);
 	/* main loop: get and send lines of text */
-	printf("client MSG: ");
+	printf("client MSG: "); //prompt user for input
 	while (fgets(buf, sizeof(buf), stdin)) {
-		buf[MAX_LINE-1] = '\0';
+		buf[MAX_LINE-1] = '\0'; //make sure string sent is null terminated
 		len = strlen(buf) + 1;
-		send(s, buf, len, MSG_CONFIRM);
-		printf("client MSG: ");
+		send(s, buf, len, MSG_CONFIRM); //send message to server
+		printf("client MSG: "); //prompt user for input again
 	}
 	return 0;
 }
